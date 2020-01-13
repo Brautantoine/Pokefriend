@@ -178,6 +178,10 @@ public class AudioMaster {
 		if(musicMuted == false)
 			bgm.setVolume(musicVolume);
 	}
+	
+	public int getMusicVolume() {
+		return (int)(musicVolume*10);
+	}
 	/**
 	 * <b>toggleMute</b> <br>
 	 * 
@@ -244,6 +248,10 @@ public class AudioMaster {
 		if(soundVolume < 0)
 			soundVolume=0;
 	}
+	
+	public int getSoundVolume() {
+		return (int)(soundVolume*10);
+	}
 	public boolean isSoundMuted() {
 		return soundMuted;
 	}
@@ -301,7 +309,10 @@ public class AudioMaster {
 				e.printStackTrace();
 				ret = false;
 		}
-		
+		System.err.println("Config loaded :\nmv : "+musicVolume
+							+";\nmm : "+musicMuted
+							+";\nsv : "+soundVolume
+							+":\nsm : "+soundMuted);
 		return ret;
 		
 		

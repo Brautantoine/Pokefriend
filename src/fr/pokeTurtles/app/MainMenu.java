@@ -66,6 +66,9 @@ public class MainMenu {
 					wipeScreenElements();
 					createMainMenu();
 					break;
+				case CREDIT:
+					wipeScreenElements();
+					createCreditPage();
 				default:
 					break;
 				}
@@ -106,7 +109,7 @@ public class MainMenu {
 				if (contains(x, y)) {
 					audioMaster.playSound("click");
 					System.out.println("credit");
-					askForSwitch(MainMenuContextSwitch.OPTION);
+					askForSwitch(MainMenuContextSwitch.CREDIT);
 				}
 			}
 		});
@@ -138,7 +141,7 @@ public class MainMenu {
 	 * 
 	 */
 	private void createOptionMenu() {
-		screenElements.add(new Backgroung("img/background/turtlefriend.jpg"));
+		screenElements.add(new Backgroung("img/background/back1.png"));
 		
 		clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {
 			@Override
@@ -157,7 +160,9 @@ public class MainMenu {
 				}	
 			}
 		});
-		
+		screenElements.add(new LabelWidget(210, 850,"Volume de la musique :"));
+		LoadingBarWidget lb = new LoadingBarWidget(530, 705, 18, 94, 10, audioMaster.getMusicVolume(), 65, "img/layout/soundBarSprite.png");
+		screenElements.add(lb);
 		clicks.add(new ToggleableClickableWidget(210, 700, 93, 103, "img/layout/soundSpriteSheet.png", 1, (audioMaster.isMusicMuted() == true ? 1 : 0)) {
 			@Override
 			public void onClick(int x, int y) {
@@ -176,22 +181,26 @@ public class MainMenu {
 					System.err.println("dec Volume");
 					audioMaster.playSound("click");
 					audioMaster.decreaseMusicVolume();
+					lb.unfill(1);
 				}
 			}
 		});
 		
-		clicks.add(new ClickableWidget(1200, 695, 100, 120, "img/layout/plusSprite.png") {
+		clicks.add(new ClickableWidget(1200, 705, 100, 120, "img/layout/plusSprite.png") {
 			@Override
 			public void onClick(int x, int y) {
 				if(contains(x, y)) {
 					System.err.println("inc Volume");
 					audioMaster.playSound("click");
 					audioMaster.increaseMusicVolume();
+					lb.fill(1);
 				}
 			}
 		});
-		
-		clicks.add(new ToggleableClickableWidget(210, 500, 93, 103, "img/layout/soundSpriteSheet.png", 1, (audioMaster.isSoundMuted() == true ? 1 : 0)) {
+		screenElements.add(new LabelWidget(210, 600, "Volume des Bruitages :"));
+		LoadingBarWidget lb2 = new LoadingBarWidget(530, 450, 18, 94, 10, audioMaster.getSoundVolume(), 65, "img/layout/soundBarSprite.png");
+		screenElements.add(lb2);
+		clicks.add(new ToggleableClickableWidget(210, 450, 93, 103, "img/layout/soundSpriteSheet.png", 1, (audioMaster.isSoundMuted() == true ? 1 : 0)) {
 			@Override
 			public void onClick(int x, int y) {
 				if(contains(x, y)) {
@@ -204,25 +213,44 @@ public class MainMenu {
 			}
 		});
 		
-		clicks.add(new ClickableWidget(350, 535, 40, 120, "img/layout/minus.png") {
+		clicks.add(new ClickableWidget(350, 485, 40, 120, "img/layout/minus.png") {
 		@Override
 		public void onClick(int x, int y) {
 			if(contains(x, y)) {
 				System.err.println("dec Volume");
 				audioMaster.playSound("click");
 				audioMaster.decreaseSoundVolume();
+				lb2.unfill(1);
 				}
 			}
 		});
 		
-		clicks.add(new ClickableWidget(1200, 495, 100, 120, "img/layout/plusSprite.png") {
+		clicks.add(new ClickableWidget(1200, 465, 100, 120, "img/layout/plusSprite.png") {
 			@Override
 			public void onClick(int x, int y) {
 				if(contains(x, y)) {
 					System.err.println("inc Volume");
 					audioMaster.playSound("click");
 					audioMaster.increaseSoundVolume();
+					lb2.fill(1);
 				}
+			}
+		});
+	}
+	
+	private void createCreditPage() {
+		screenElements.add(new Backgroung("img/background/turtlefriend.jpg"));
+		
+		screenElements.add(new LabelWidget(500, 500, "C'est les crédits :"));
+		clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {
+			@Override
+			public void onClick(int x, int y) {
+				
+				if(contains(x, y)) {	
+					System.out.println("return to menu");
+					audioMaster.playSound("click");
+					askForSwitch(MainMenuContextSwitch.MAIN);
+				}	
 			}
 		});
 	}
