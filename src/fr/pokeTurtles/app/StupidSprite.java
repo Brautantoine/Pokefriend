@@ -52,7 +52,7 @@ public class StupidSprite implements Drawable, Clickable{
 		this.fileName = fileName;
 		dX = 1;
 		dY = 1;
-		layerHeight=1;
+		layerHeight=3;
 		
 		timer.schedule(new TimerTask() {
             @Override
@@ -84,7 +84,7 @@ public class StupidSprite implements Drawable, Clickable{
 		this.dX = dX;
 		this.dY = dY;
 		
-		layerHeight = 1;
+		layerHeight = 3;
 		
 		timer.schedule(new TimerTask() {
             @Override

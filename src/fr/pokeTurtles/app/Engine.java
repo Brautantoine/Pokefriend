@@ -172,6 +172,7 @@ public class Engine implements ApplicationListener, InputProcessor {
      * @param oldDrawable
      */
     public void removeDrawable(Drawable oldDrawable) {
+    	//TODO dispose
     	drawableMutex.lock();
     	elementToDraw.remove(oldDrawable);
     	drawableMutex.unlock();

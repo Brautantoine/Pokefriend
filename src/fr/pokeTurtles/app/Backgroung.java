@@ -71,6 +71,7 @@ public class Backgroung implements Drawable {
 	public boolean close() {
 		
 		engineInstance.removeDrawable(this);
+		//imgTexture.dispose();
 		
 		return true;
 	}

@@ -123,6 +123,8 @@ public class ClickableWidget implements Drawable, Clickable {
 		// TODO Auto-generated method stub
 		instance.removeDrawable(this);
 		instance.removeClickable(this);
+		
+		//imgTexture.dispose();
 		return false;
 	}
 	/**

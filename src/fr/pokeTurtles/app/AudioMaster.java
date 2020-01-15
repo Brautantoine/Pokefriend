@@ -86,7 +86,8 @@ public class AudioMaster {
 		
 		
 		//add default audio to the set
-		lib.put("mainMenu", "audio/bgm/mainMenu.mp3");
+		lib.put("mainMenu", "audio/bgm/mainMenu.ogg");
+		lib.put("stage1", "audio/bgm/quietSong.ogg");
 		lib.put("click", "audio/sound/click.wav");
 		
 	}
@@ -124,12 +125,22 @@ public class AudioMaster {
 		
 		bgm = Gdx.audio.newMusic(new FileHandle(lib.get(musicName)));
 		
+		if(bgm == null)
+			throw  new RuntimeException("Assert bgm null");
+		
 		bgm.setLooping(true);
+		
 		if(musicMuted == false)
 			bgm.setVolume(musicVolume);
 		else
 			bgm.setVolume(0);
-		bgm.play();
+		try {
+			bgm.play();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	/**
 	 * <b>pauseMusic</b> <br>

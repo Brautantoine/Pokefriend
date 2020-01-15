@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 
 /**
  * <b>MainMenu</b> <br>
@@ -69,6 +70,13 @@ public class MainMenu {
 				case CREDIT:
 					wipeScreenElements();
 					createCreditPage();
+					break;
+				case PLAY:
+					wipeScreenElements();
+					CoreGame cg = new CoreGame();
+					cg.newGame();
+					createMainMenu();
+					audioMaster.startMusic("mainMenu");
 				default:
 					break;
 				}
@@ -130,6 +138,7 @@ public class MainMenu {
 				if (contains(x, y)) {
 					audioMaster.playSound("click");
 					System.out.println("jouer");
+					askForSwitch(MainMenuContextSwitch.PLAY);
 				}
 					
 			}
@@ -160,7 +169,7 @@ public class MainMenu {
 				}	
 			}
 		});
-		screenElements.add(new LabelWidget(210, 850,"Volume de la musique :"));
+		screenElements.add(new LabelWidget(210, 850,"Volume de la musique :",Color.YELLOW)); // Guess what ? The font is monochrome so change the color doesn't do anything
 		LoadingBarWidget lb = new LoadingBarWidget(530, 705, 18, 94, 10, audioMaster.getMusicVolume(), 65, "img/layout/soundBarSprite.png");
 		screenElements.add(lb);
 		clicks.add(new ToggleableClickableWidget(210, 700, 93, 103, "img/layout/soundSpriteSheet.png", 1, (audioMaster.isMusicMuted() == true ? 1 : 0)) {

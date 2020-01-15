@@ -4,5 +4,6 @@ public enum MainMenuContextSwitch {
 	MAIN,
 	OPTION,
 	CREDIT,
+	PLAY,
 	NONE,
 }

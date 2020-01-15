@@ -21,6 +21,8 @@ public class LabelWidget implements Drawable {
 	private boolean createOnce = false;
 	
 	private int layer;
+	
+	private Color color;
 
 	public LabelWidget(int posx, int posy, String labelText) {
 		
@@ -31,6 +33,23 @@ public class LabelWidget implements Drawable {
 		
 		layer = 1;
 		
+		color = Color.BLACK;
+		
+		engine = Engine.getInstance();
+		engine.addDrawable(this);
+	}
+	
+public LabelWidget(int posx, int posy, String labelText, Color color) {
+		
+		this.posx = posx;
+		this.posy = posy;
+		
+		this.labelText = labelText;
+		
+		layer = 1;
+		
+		this.color = color; 
+		
 		engine = Engine.getInstance();
 		engine.addDrawable(this);
 	}
@@ -38,7 +57,7 @@ public class LabelWidget implements Drawable {
 	@Override
 	public void create() {
 		label = new BitmapFont(new FileHandle("font/arcadeFont.fnt"));
-		label.setColor(Color.BLUE);
+		label.setColor(color);
 
 	}
 
