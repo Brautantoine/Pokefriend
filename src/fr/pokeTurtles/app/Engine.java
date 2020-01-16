@@ -2,6 +2,7 @@ package fr.pokeTurtles.app;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -11,8 +12,10 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 /**
  * <b>Engine</b> - singleton <br>
  * 
@@ -32,10 +35,14 @@ public class Engine implements ApplicationListener, InputProcessor {
     /** tell the engine have been created **/
     private boolean ready = false;
     
+    private ArrayList<Object> oldElements;
+    
     /** Mutex to protect the drawable list from concurrent modification **/
     private ReentrantLock drawableMutex;
     
     private ReentrantLock clickableMutex;
+    
+    private Lock disposeMutex;
     
     final public int HEIGHT = 1920;
     final public int WIDHT = 1080;
@@ -75,6 +82,8 @@ public class Engine implements ApplicationListener, InputProcessor {
         elementToDraw = new ArrayList<>();
         clickableMutex = new ReentrantLock();
         clickable = new ArrayList<>();
+        disposeMutex = new ReentrantLock();
+        oldElements = new ArrayList<>();
         instance = this;
         ready = true;
         Gdx.input.setInputProcessor(this);
@@ -138,6 +147,21 @@ public class Engine implements ApplicationListener, InputProcessor {
         }
         drawableMutex.unlock();
         batch.end();
+        
+     // Dispose old elements ... of course it had to be done in openGL context for more fun
+    	if(oldElements.size() > 0) {
+    		disposeMutex.lock();
+    		for(Iterator<Object> elements = oldElements.iterator(); elements.hasNext();) {
+    			Object o = elements.next();
+    			if(o.getClass() == Texture.class) {
+    	    		((Texture)o).dispose();
+    				System.err.println("free memory");}
+    	    	else if (o.getClass() == Label.class)
+    	    		;//((Label)element).dispose();
+    			elements.remove();
+    		}
+    		disposeMutex.unlock();
+    	}
     }
 
     @Override
@@ -195,6 +219,12 @@ public class Engine implements ApplicationListener, InputProcessor {
     // We can't mix batch and shaperenderer that's why we need this, however it batch and shaperenderer don't like each over
     public void endBatch () { batch.end(); }
     public void startBatch () { batch.begin(); }
+    
+    public void disposeElement(Object element) {
+    	disposeMutex.lock();
+    	oldElements.add(element);
+    	disposeMutex.unlock();
+    }
     
     
 //////////

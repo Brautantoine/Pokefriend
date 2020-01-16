@@ -77,7 +77,7 @@ public class LoadingBarWidget implements Drawable {
 	@Override
 	public boolean close() {
 		engine.removeDrawable(this);
-		//imgTexture.dispose();
+		engine.disposeElement(imgTexture);
 		return false;
 	}
 	

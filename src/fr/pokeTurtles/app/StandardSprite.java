@@ -73,7 +73,7 @@ protected boolean createOnce = false;
 	public boolean close() {
 		// TODO Auto-generated method stub
 		engine.removeDrawable(this);
-		//imgTexture.dispose();
+		engine.disposeElement(imgTexture);
 		return false;
 	}
 

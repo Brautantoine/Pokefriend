@@ -81,7 +81,7 @@ public LabelWidget(int posx, int posy, String labelText, Color color) {
 	@Override
 	public boolean close() {
 		engine.removeDrawable(this);
-		//label.dispose();
+		engine.disposeElement(labelText);
 		return false;
 	}
 

@@ -124,7 +124,7 @@ public class ClickableWidget implements Drawable, Clickable {
 		instance.removeDrawable(this);
 		instance.removeClickable(this);
 		
-		//imgTexture.dispose();
+		instance.disposeElement(imgTexture);
 		return false;
 	}
 	/**
