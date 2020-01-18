@@ -153,11 +153,11 @@ public class Engine implements ApplicationListener, InputProcessor {
     		disposeMutex.lock();
     		for(Iterator<Object> elements = oldElements.iterator(); elements.hasNext();) {
     			Object o = elements.next();
-    			if(o.getClass() == Texture.class) {
+    			if(o.getClass() == Texture.class) //{
     	    		((Texture)o).dispose();
-    				System.err.println("free memory");}
-    	    	else if (o.getClass() == Label.class)
-    	    		;//((Label)element).dispose();
+    				//System.err.println("free memory");}
+    	    	else if (o.getClass() == BitmapFont.class)
+    	    		((BitmapFont)o).dispose();
     			elements.remove();
     		}
     		disposeMutex.unlock();

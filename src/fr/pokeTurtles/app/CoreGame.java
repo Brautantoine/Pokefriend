@@ -12,10 +12,15 @@ public class CoreGame {
 	
 	private GameTable gt;
 	
-	public CoreGame() {
+	private int nbPlayer;
+	private ArrayList<Player> players;
+	
+	public CoreGame(int nbPlayer) {
 		screenElements = new ArrayList<Drawable>();
 		clicks = new ArrayList<Clickable>();
 		core = true;
+		this.nbPlayer = nbPlayer;
+		players = new ArrayList<Player>();
 		
 		audioMaster = AudioMaster.getInstance();
 		
@@ -31,7 +36,7 @@ public class CoreGame {
 	
 	private void startStage() {
 		audioMaster.startMusic("stage1");
-		new Backgroung("img/background/stage1.jpg");
+		new Backgroung("img/background/stage1G.png");
 		/*for(int i=0;i<8;i++)
 			for(int k=0;k<8;k++){	
 				new ToggleableClickableWidget(50+(i*104), 925-(k*104), 104, 104, "img/layout/coreGame/cellSprite.png", 1) {
@@ -45,6 +50,14 @@ public class CoreGame {
 				//new StupidSprite("img/turtles/turtwig.png",600-(i*20),450+(k*20),-2,10);
 			}*/
 		gt = new GameTable(50, 925);
+		gt.addElement(1, 1, TableElementType.BUSH);
+		gt.addElement(2, 2, TableElementType.BUSH);
+		gt.addElement(5, 3, TableElementType.ROCK);
+		gt.addElement(4, 7, TableElementType.TURTLES);
+		gt.addElement(1, 3, TableElementType.TURTLES);
+		gt.addElement(1, 6, TableElementType.TURTLES);
+		gt.addElement(7, 7, TableElementType.TURTLES);
+		gt.moveElement(4, 7, 1, 2);
 		
 		clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {
 			@Override
