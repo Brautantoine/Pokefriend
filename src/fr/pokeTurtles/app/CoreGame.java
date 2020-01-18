@@ -57,6 +57,10 @@ public class CoreGame {
 		gt.addElement(1, 3, TableElementType.TURTLES);
 		gt.addElement(1, 6, TableElementType.TURTLES);
 		gt.addElement(7, 7, TableElementType.TURTLES);
+		gt.addElement(3, 3, TableElementType.PKCTR);
+		gt.addElement(3, 4, TableElementType.PKCTR);
+		gt.addElement(3, 5, TableElementType.PKCTR);
+		gt.addElement(3, 6, TableElementType.PKCTR);
 		gt.moveElement(4, 7, 1, 2);
 		
 		clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {

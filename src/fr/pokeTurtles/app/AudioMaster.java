@@ -87,7 +87,7 @@ public class AudioMaster {
 		
 		//add default audio to the set
 		lib.put("mainMenu", "audio/bgm/mainMenu.ogg");
-		lib.put("stage1", "audio/bgm/quietSong.ogg");
+		lib.put("stage1", "audio/bgm/stage1.ogg");
 		lib.put("click", "audio/sound/click.wav");
 		
 	}

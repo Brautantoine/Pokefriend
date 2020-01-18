@@ -75,6 +75,8 @@ public class GameTable {
 			return new TableElement(type, posx+((x)*offset)+20, posy-((y)*offset)+10);
 		case TURTLES:
 			return new Turtles(posx+((x)*offset)+20, posy-((y)*offset)+10);
+		case PKCTR:
+			return new Cristal(posx+((x)*offset)+20, posy-((y)*offset)+10);
 		default:
 			return null;
 		}
