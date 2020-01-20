@@ -1,5 +1,6 @@
 package fr.pokeTurtles.app;
 
+import java.awt.Panel;
 import java.util.ArrayList;
 
 public class CoreGame {
@@ -14,6 +15,8 @@ public class CoreGame {
 	
 	private int nbPlayer;
 	private ArrayList<Player> players;
+	
+	private RightPanel panel;
 	
 	public CoreGame(int nbPlayer) {
 		screenElements = new ArrayList<Drawable>();
@@ -61,8 +64,11 @@ public class CoreGame {
 		gt.addElement(3, 4, TableElementType.PKCTR);
 		gt.addElement(3, 5, TableElementType.PKCTR);
 		gt.addElement(3, 6, TableElementType.PKCTR);
+		//gt.addElement(4, 6, TableElementType.PKCTR);
 		gt.moveElement(4, 7, 1, 2);
 		
+		//screenElements.add(new LabelWidget(1050, 975, "Joueur : Chartor\n\nNombre de bloc restant :\n\nRocher : 3\nArbre : 2"));
+		panel = new RightPanel(gt);
 		clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {
 			@Override
 			public void onClick(int x, int y) {
@@ -86,6 +92,7 @@ public class CoreGame {
 		screenElements.clear();
 		clicks.clear();
 		
+		panel.close();
 		gt.close();
 	}
 

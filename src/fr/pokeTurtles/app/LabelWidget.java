@@ -46,14 +46,27 @@ public LabelWidget(int posx, int posy, String labelText, Color color) {
 		
 		this.labelText = labelText;
 		
-		layer = 1;
+		layer = 2;
 		
 		this.color = color; 
 		
 		engine = Engine.getInstance();
 		engine.addDrawable(this);
 	}
-
+public LabelWidget(int posx, int posy, String labelText, Color color, int layer) {
+	
+	this.posx = posx;
+	this.posy = posy;
+	
+	this.labelText = labelText;
+	
+	this.layer = layer;
+	
+	this.color = color; 
+	
+	engine = Engine.getInstance();
+	engine.addDrawable(this);
+}
 	@Override
 	public void create() {
 		label = new BitmapFont(new FileHandle("font/arcadeFont.fnt"));
@@ -83,6 +96,10 @@ public LabelWidget(int posx, int posy, String labelText, Color color) {
 		engine.removeDrawable(this);
 		engine.disposeElement(labelText);
 		return false;
+	}
+	
+	public void setText(String labelText) {
+		this.labelText = labelText;
 	}
 
 }

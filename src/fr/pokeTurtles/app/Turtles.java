@@ -8,10 +8,26 @@ public class Turtles extends TableElement {
 	private static int NB_PLAYER = 0;
 	private final int player;
 	
-	public Turtles(int posx, int posy) {
+	private int gridX;
+	private int gridY;
+	
+	private final int startGridX;
+	private final int startGridY;
+	
+	private Direction direction;
+	
+	private final Direction startDirection;
+	
+	public Turtles(int posx, int posy, Direction direction, int gridX, int gridY) {
 		super(TableElementType.TURTLES, posx, posy);
 		NB_PLAYER++;
 		player = NB_PLAYER;
+		this.gridX = gridX;
+		this.gridY = gridY;
+		startGridX = gridX;
+		startGridY = gridY;
+		this.direction = direction;
+		this.startDirection = this.direction;
 	}
 	
 	/**
@@ -44,9 +60,22 @@ public class Turtles extends TableElement {
 	
 	@Override
 	public boolean close() {
-		// TODO Auto-generated method stub
 		NB_TURTLES--;
 		return super.close();
 	}
+	
+	public void reset() {
+		this.gridX = startGridX;
+		this.gridY = startGridY;
+		this.direction = startDirection;
+		
+		posx = posx+((gridX)*104)+20;
+		posy = posy-((gridY)*104)+10;
+	}
+	
+	/*public void move(int gridX, int gridY) {
+		posx = posx+((gridX)*104)+20;
+		posy = posy-((gridY)*104)+10;
+	}*/
 
 }
