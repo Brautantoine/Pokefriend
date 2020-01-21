@@ -5,22 +5,25 @@ import com.badlogic.gdx.graphics.Texture;
 public class Cristal extends TableElement {
 
 	private static int NB_CRISTAL = 0;
-	private static int NB_PLAYER = 0;
-	private final int player;
+	//private static int NB_PLAYER = 0;
+	//private final int player;
+	private boolean reached;
 	
 	public Cristal(int posx, int posy) {
 		super(TableElementType.PKCTR, posx, posy);
-		NB_PLAYER++;
-		player = NB_PLAYER;
+		//NB_PLAYER++;
+		//player = NB_PLAYER;
+		reached = false;
 	}
 	
 
 	/**
 	 * @return the player
 	 */
-	public int getPlayer() {
+	/*public int getPlayer() {
 		return player;
-	}
+	}*/
+	public boolean isReached() {return reached;}
 
 	@Override
 	public void create() {

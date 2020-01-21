@@ -38,6 +38,10 @@ public class CoreGame {
 	}
 	
 	private void startStage() {
+		
+		for(int i=0;i<nbPlayer;i++)
+			players.add(new Player());
+		
 		audioMaster.startMusic("stage1");
 		new Backgroung("img/background/stage1G.png");
 		/*for(int i=0;i<8;i++)
@@ -53,7 +57,37 @@ public class CoreGame {
 				//new StupidSprite("img/turtles/turtwig.png",600-(i*20),450+(k*20),-2,10);
 			}*/
 		gt = new GameTable(50, 925);
-		gt.addElement(1, 1, TableElementType.BUSH);
+		
+		switch (nbPlayer) {
+		case 2:
+			gt.addElement(1, 0, TableElementType.TURTLES);
+			gt.addElement(5, 0, TableElementType.TURTLES);
+			gt.addElement(3, 7, TableElementType.PKCTR);
+			for(int i=0;i<8;i++)
+				gt.addElement(7, i, TableElementType.ROCK);
+			break;
+		case 3:
+			gt.addElement(0, 0, TableElementType.TURTLES);
+			gt.addElement(3, 0, TableElementType.TURTLES);
+			gt.addElement(6, 0, TableElementType.TURTLES);
+			gt.addElement(0, 7, TableElementType.PKCTR);
+			gt.addElement(3, 7, TableElementType.PKCTR);
+			gt.addElement(6, 7, TableElementType.PKCTR);
+			for(int i=0;i<8;i++)
+				gt.addElement(7, i, TableElementType.ROCK);
+			break;
+		case 4:
+			gt.addElement(0, 0, TableElementType.TURTLES);
+			gt.addElement(2, 0, TableElementType.TURTLES);
+			gt.addElement(5, 0, TableElementType.TURTLES);
+			gt.addElement(7, 0, TableElementType.TURTLES);
+			gt.addElement(1, 7, TableElementType.PKCTR);
+			gt.addElement(6, 7, TableElementType.PKCTR);
+
+		default:
+			break;
+		}
+		/*gt.addElement(1, 1, TableElementType.BUSH);
 		gt.addElement(2, 2, TableElementType.BUSH);
 		gt.addElement(5, 3, TableElementType.ROCK);
 		gt.addElement(4, 7, TableElementType.TURTLES);
@@ -63,13 +97,13 @@ public class CoreGame {
 		gt.addElement(3, 3, TableElementType.PKCTR);
 		gt.addElement(3, 4, TableElementType.PKCTR);
 		gt.addElement(3, 5, TableElementType.PKCTR);
-		gt.addElement(3, 6, TableElementType.PKCTR);
+		gt.addElement(3, 6, TableElementType.PKCTR);*/
 		//gt.addElement(4, 6, TableElementType.PKCTR);
-		gt.moveElement(4, 7, 1, 2);
+		//gt.moveElement(4, 7, 1, 2);
 		
 		//screenElements.add(new LabelWidget(1050, 975, "Joueur : Chartor\n\nNombre de bloc restant :\n\nRocher : 3\nArbre : 2"));
 		panel = new RightPanel(gt);
-		clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {
+		/*clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {
 			@Override
 			public void onClick(int x, int y) {
 				
@@ -79,8 +113,30 @@ public class CoreGame {
 					core = false;
 				}	
 			}
-		});
-		while(core);
+		});*/
+		
+		Player player;
+		int currentPlayer = 0;
+		while(core) {
+			player = players.get(currentPlayer);
+			System.err.println(player.getPlayerName());
+			panel.printPlayerInfo(player);
+			PlayerChoice playerChoice = panel.getPlayerChoice(player.getHand());
+			System.err.println("playerChoice : "+playerChoice);
+			
+			switch (playerChoice) {
+			case BLOCK:
+				playerChoice = panel.getBlockChoice();
+				break;
+
+			default:
+				break;
+			}
+			
+			currentPlayer++;
+			if(currentPlayer >= nbPlayer)
+				currentPlayer=0;
+		}
 		wipeScreenElements();
 	}
 	

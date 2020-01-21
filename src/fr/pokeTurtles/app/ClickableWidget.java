@@ -147,4 +147,9 @@ public class ClickableWidget implements Drawable, Clickable {
 		return ret;
 	}
 	
+	public void move (int posx, int posy) {
+		this.posX = posx;
+		this.posY = posy;
+	}
+	
 }
