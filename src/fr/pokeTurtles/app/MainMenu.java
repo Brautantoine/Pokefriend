@@ -73,7 +73,7 @@ public class MainMenu {
 					break;
 				case PLAY:
 					wipeScreenElements();
-					CoreGame cg = new CoreGame(4);
+					CoreGame cg = new CoreGame(2);
 					cg.newGame();
 					createMainMenu();
 					audioMaster.startMusic("mainMenu");

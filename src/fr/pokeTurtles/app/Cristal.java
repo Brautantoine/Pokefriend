@@ -9,11 +9,17 @@ public class Cristal extends TableElement {
 	//private final int player;
 	private boolean reached;
 	
-	public Cristal(int posx, int posy) {
+	private int posI;
+	private int posK;
+	
+	public Cristal(int posx, int posy, int posI, int posK) {
 		super(TableElementType.PKCTR, posx, posy);
 		//NB_PLAYER++;
 		//player = NB_PLAYER;
 		reached = false;
+		
+		this.posI = posI;
+		this.posK = posK;
 	}
 	
 
@@ -51,5 +57,8 @@ public class Cristal extends TableElement {
 		NB_CRISTAL--;
 		return super.close();
 	}
+	
+	public int getPosI() { return posI; }
+	public int getPosK() { return posK; }
 
 }

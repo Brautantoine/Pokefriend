@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.swing.DropMode;
+
 public class Player {
 
 	private int nbRock;
@@ -66,8 +68,16 @@ public class Player {
 		hand = new ArrayList<>();
 	}
 	
-	public ArrayList<Card> getHand() {
-		for(int i = hand.size();i<5;i++)
+	public ArrayList<Card> drawHand() {
+		
+		int k = 5;
+		
+		if(drawStack.size() < k-hand.size())
+			reload();
+		if(drawStack.size() < k-hand.size())
+			k = drawStack.size();
+		
+		for(int i = hand.size();i<k;i++)
 			hand.add(drawStack.pop());
 		return hand;
 	}
@@ -79,7 +89,31 @@ public class Player {
 		return playerName;
 	}
 	
+	public void addToExec(ArrayList<Card> cards) {
+		for(Card c : cards)
+			execStak.push(c);
+			
+	}
+	
+	private void reload() {
+		for(int i=0;i<dropStack.size();i++) {
+			drawStack.push(dropStack.pop());
+		}
+	}
+	
+	public void addToDrop(ArrayList<Card> cards) {
+		for(Card c : cards)
+			dropStack.push(c);
+	}
+	
 	public int getRock() { return nbRock; }
 	public int getTree() { return nbTree; }
+	public int getDrawSize() { return drawStack.size(); }
+	public int getExecSize() { return execStak.size(); }
+	public int getDropStack() { return dropStack.size(); }
+	public ArrayList<Card> getHand() { return hand; }
+	
+	public void removeTree() { nbTree--; }
+	public void removeRock() { nbRock--; }
 
 }

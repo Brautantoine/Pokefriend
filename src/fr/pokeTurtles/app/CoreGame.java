@@ -83,6 +83,7 @@ public class CoreGame {
 			gt.addElement(7, 0, TableElementType.TURTLES);
 			gt.addElement(1, 7, TableElementType.PKCTR);
 			gt.addElement(6, 7, TableElementType.PKCTR);
+			//gt.addElement(7, 7, TableElementType.BUSH);
 
 		default:
 			break;
@@ -120,15 +121,30 @@ public class CoreGame {
 		while(core) {
 			player = players.get(currentPlayer);
 			System.err.println(player.getPlayerName());
-			panel.printPlayerInfo(player);
-			PlayerChoice playerChoice = panel.getPlayerChoice(player.getHand());
+			//panel.printPlayerInfo(player);
+			PlayerChoice playerChoice = panel.getPlayerChoice(player.drawHand(), player);
 			System.err.println("playerChoice : "+playerChoice);
 			
 			switch (playerChoice) {
 			case BLOCK:
-				playerChoice = panel.getBlockChoice();
+				playerChoice = panel.getBlockChoice(player);
+				System.err.println(playerChoice);
+				switch (playerChoice) {
+				case TREE:
+					gt.addTree();
+					player.removeTree();
+					break;
+				case ROCK:
+					gt.addRock();
+					player.removeRock();
+					break;
+				default:
+					break;
+				}
 				break;
-
+			case BUILDPROG:
+				player.addToExec(panel.getSelected(player.getHand()));
+				break;
 			default:
 				break;
 			}
@@ -136,6 +152,11 @@ public class CoreGame {
 			currentPlayer++;
 			if(currentPlayer >= nbPlayer)
 				currentPlayer=0;
+			
+			playerChoice = panel.getDropChoice(player.getHand());
+			
+			if(playerChoice == PlayerChoice.DROP)
+				player.addToDrop(panel.getSelected(player.getHand()));
 		}
 		wipeScreenElements();
 	}

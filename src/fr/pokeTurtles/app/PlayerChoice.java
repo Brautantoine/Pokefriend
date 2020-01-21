@@ -7,4 +7,5 @@ public enum PlayerChoice {
 	DROP,
 	TREE,
 	ROCK,
+	KEEP,
 }
