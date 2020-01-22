@@ -60,5 +60,9 @@ public class Cristal extends TableElement {
 	
 	public int getPosI() { return posI; }
 	public int getPosK() { return posK; }
+	
+	public boolean getReached() { return reached; }
+	
+	public void reach() { reached = true; }
 
 }

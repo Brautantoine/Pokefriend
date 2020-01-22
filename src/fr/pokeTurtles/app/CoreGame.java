@@ -1,6 +1,6 @@
 package fr.pokeTurtles.app;
 
-import java.awt.Panel;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class CoreGame {
@@ -43,24 +43,13 @@ public class CoreGame {
 			players.add(new Player());
 		
 		audioMaster.startMusic("stage1");
-		new Backgroung("img/background/stage1G.png");
-		/*for(int i=0;i<8;i++)
-			for(int k=0;k<8;k++){	
-				new ToggleableClickableWidget(50+(i*104), 925-(k*104), 104, 104, "img/layout/coreGame/cellSprite.png", 1) {
-					@Override
-					public void onClick(int x, int y) {
-						if(contains(x, y)) {
-							toggleSprite();
-						}
-					}
-				};
-				//new StupidSprite("img/turtles/turtwig.png",600-(i*20),450+(k*20),-2,10);
-			}*/
+		screenElements.add(new Backgroung("img/background/stage1G.png"));
+		
 		gt = new GameTable(50, 925);
 		
 		switch (nbPlayer) {
 		case 2:
-			gt.addElement(1, 0, TableElementType.TURTLES);
+			gt.addElement(2, 0, TableElementType.TURTLES);
 			gt.addElement(5, 0, TableElementType.TURTLES);
 			gt.addElement(3, 7, TableElementType.PKCTR);
 			for(int i=0;i<8;i++)
@@ -83,46 +72,50 @@ public class CoreGame {
 			gt.addElement(7, 0, TableElementType.TURTLES);
 			gt.addElement(1, 7, TableElementType.PKCTR);
 			gt.addElement(6, 7, TableElementType.PKCTR);
-			//gt.addElement(7, 7, TableElementType.BUSH);
 
 		default:
 			break;
 		}
-		/*gt.addElement(1, 1, TableElementType.BUSH);
-		gt.addElement(2, 2, TableElementType.BUSH);
-		gt.addElement(5, 3, TableElementType.ROCK);
-		gt.addElement(4, 7, TableElementType.TURTLES);
-		gt.addElement(1, 3, TableElementType.TURTLES);
-		gt.addElement(1, 6, TableElementType.TURTLES);
-		gt.addElement(7, 7, TableElementType.TURTLES);
-		gt.addElement(3, 3, TableElementType.PKCTR);
-		gt.addElement(3, 4, TableElementType.PKCTR);
-		gt.addElement(3, 5, TableElementType.PKCTR);
-		gt.addElement(3, 6, TableElementType.PKCTR);*/
-		//gt.addElement(4, 6, TableElementType.PKCTR);
-		//gt.moveElement(4, 7, 1, 2);
-		
-		//screenElements.add(new LabelWidget(1050, 975, "Joueur : Chartor\n\nNombre de bloc restant :\n\nRocher : 3\nArbre : 2"));
+
 		panel = new RightPanel(gt);
-		/*clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {
-			@Override
-			public void onClick(int x, int y) {
-				
-				if(contains(x, y)) {	
-					System.out.println("return to menu");
-					audioMaster.playSound("click");
-					core = false;
-				}	
-			}
-		});*/
+		
+		int remainingWinners = 0;
+		
+		switch (nbPlayer) {
+		case 2:
+			remainingWinners = 1;
+			break;
+		case 3:
+			remainingWinners = 3;
+			break;
+		case 4:
+			remainingWinners = 2;
+			break;
+		default:
+			break;
+		}
 		
 		Player player;
 		int currentPlayer = 0;
 		while(core) {
+			
 			player = players.get(currentPlayer);
+			
+			if(player.isFinish()) {
+				currentPlayer++;
+				if(currentPlayer >= nbPlayer)
+					currentPlayer=0;
+				continue;
+			}
+			
+			if(remainingWinners == 0) {
+				core = false;
+				continue;
+			}
+			
 			System.err.println(player.getPlayerName());
 			//panel.printPlayerInfo(player);
-			PlayerChoice playerChoice = panel.getPlayerChoice(player.drawHand(), player);
+			PlayerChoice playerChoice = panel.getPlayerChoice(player.drawHand(), player,currentPlayer);
 			System.err.println("playerChoice : "+playerChoice);
 			
 			switch (playerChoice) {
@@ -145,6 +138,9 @@ public class CoreGame {
 			case BUILDPROG:
 				player.addToExec(panel.getSelected(player.getHand()));
 				break;
+			case EXEC:
+				remainingWinners-=executePlayerStack(currentPlayer);
+				break;
 			default:
 				break;
 			}
@@ -159,6 +155,74 @@ public class CoreGame {
 				player.addToDrop(panel.getSelected(player.getHand()));
 		}
 		wipeScreenElements();
+		
+		core = true;
+		screenElements.add(new Backgroung("img/background/stage1G.png"));
+		clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {
+			@Override
+			public void onClick(int x, int y) {
+				
+				if(contains(x, y)) {	
+					System.out.println("return to menu");
+					audioMaster.playSound("click");
+					core = false;
+				}	
+			}
+		});
+		String winText = new String("Les gagnants sont :\n");
+		for(Integer i : gt.getWinners()) {
+			
+			winText+="- "+players.get(i).getPlayerName()+"\n";
+			
+		}
+		screenElements.add(new LabelWidget(500, 800, winText));
+		while(core);
+		
+		wipeScreenElements();
+	}
+	
+	private int executePlayerStack(int currentPlayer) {
+		
+		int ret = 0;
+		
+		Player player = players.get(currentPlayer);
+		
+		ArrayDeque<Card> execStack = player.getExec();
+		ArrayDeque<Card> dropStack = player.getDrop();
+		
+		final int s = execStack.size();
+		
+		for(int i =0; i<s; i++) {
+			
+			Card c = execStack.pop();
+			
+			switch (c) {
+			case blue:
+				ret=gt.moveTurtles(currentPlayer);
+				break;
+			case purple:
+				gt.turnTurtleLeft(currentPlayer);
+				break;
+			case red:
+				gt.fireDatLaserKABOOOM(currentPlayer);
+				break;
+			case yellow:
+				gt.turnTurtleRight(currentPlayer);
+				break;
+			default:
+				break;
+			}
+			
+			dropStack.push(c);
+			
+			if(ret == 1) {
+				player.finish();
+				break;
+			}
+		}
+		
+		return ret;
+		
 	}
 	
 	private void wipeScreenElements () {

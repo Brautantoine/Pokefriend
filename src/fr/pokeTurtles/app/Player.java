@@ -22,6 +22,8 @@ public class Player {
 	
 	private String playerName;
 	
+	private Boolean gameOver;
+	
 	public Player() {
 		nbRock = 3;
 		nbTree = 2;
@@ -36,10 +38,11 @@ public class Player {
 			playerName = "chartor";
 			break;
 		case 2:
-			playerName = "tortipouss";
+			playerName = "caratroc";
+			
 			break;
 		case 3:
-			playerName = "caratroc";
+			playerName = "tortipouss";
 			break;
 		case 4:
 			playerName = "carapuce";
@@ -66,6 +69,8 @@ public class Player {
 		execStak = new ArrayDeque<>();
 		
 		hand = new ArrayList<>();
+		
+		gameOver = false;
 	}
 	
 	public ArrayList<Card> drawHand() {
@@ -112,8 +117,12 @@ public class Player {
 	public int getExecSize() { return execStak.size(); }
 	public int getDropStack() { return dropStack.size(); }
 	public ArrayList<Card> getHand() { return hand; }
+	public ArrayDeque<Card> getDrop() { return dropStack; }
+	public ArrayDeque<Card> getExec() { return execStak; }
+	public Boolean isFinish() { return gameOver; }
 	
 	public void removeTree() { nbTree--; }
 	public void removeRock() { nbRock--; }
+	public void finish() { gameOver = true; }
 
 }

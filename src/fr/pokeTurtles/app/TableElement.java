@@ -74,5 +74,7 @@ public class TableElement implements Drawable {
 		engine.disposeElement(imgTexture);
 		return false;
 	}
+	
+	public TableElementType getType() { return type; }
 
 }

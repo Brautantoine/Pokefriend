@@ -45,10 +45,11 @@ public class Turtles extends TableElement {
 			imgTexture = new Texture("img/turtles/chartorSprite.png");
 			break;
 		case 2:
-			imgTexture = new Texture("img/turtles/turtwigSprite.png");
+			imgTexture = new Texture("img/turtles/caratrocSprite.png");
+			
 			break;
 		case 3:
-			imgTexture = new Texture("img/turtles/caratrocSprite.png");
+			imgTexture = new Texture("img/turtles/turtwigSprite.png");
 			break;
 		case 4:
 			imgTexture = new Texture("img/turtles/squirttle.png");
@@ -69,13 +70,24 @@ public class Turtles extends TableElement {
 		this.gridY = startGridY;
 		this.direction = startDirection;
 		
-		posx = posx+((gridX)*104)+20;
-		posy = posy-((gridY)*104)+10;
+		posx = 50+((gridX)*104)+20;
+		posy = 925-((gridY)*104)+10;
 	}
 	
 	/*public void move(int gridX, int gridY) {
 		posx = posx+((gridX)*104)+20;
 		posy = posy-((gridY)*104)+10;
 	}*/
+	
+	public void updatePos(int gridX, int gridY) {
+		this.gridX = gridX;
+		this.gridY = gridY;
+	}
+	
+	public int getGridX() { return gridX; }
+	public int getGridY() { return gridY; }
+	public Direction getDirection() { return direction; }
+	
+	public void setDirection(Direction d) { this.direction = d; }
 
 }

@@ -26,6 +26,9 @@ public class MainMenu {
 	
 	private AudioMaster audioMaster; 
 	
+	private volatile boolean waiting = false;
+	private int nbPlayer = 0;
+	
 	/**
 	 * <b>MainMenu</b> <br>
 	 * 
@@ -73,7 +76,9 @@ public class MainMenu {
 					break;
 				case PLAY:
 					wipeScreenElements();
-					CoreGame cg = new CoreGame(2);
+					requestNbPlayer();
+					wipeScreenElements();
+					CoreGame cg = new CoreGame(nbPlayer);
 					cg.newGame();
 					createMainMenu();
 					audioMaster.startMusic("mainMenu");
@@ -250,7 +255,7 @@ public class MainMenu {
 	private void createCreditPage() {
 		screenElements.add(new Backgroung("img/background/turtlefriend.jpg"));
 		
-		screenElements.add(new LabelWidget(500, 500, "C'est les crédits :"));
+		screenElements.add(new LabelWidget(500, 800, "Fait par Louis et Antoine"));
 		clicks.add(new ClickableWidget(60,45,150,400,"img/layout/retour.png") {
 			@Override
 			public void onClick(int x, int y) {
@@ -262,6 +267,53 @@ public class MainMenu {
 				}	
 			}
 		});
+	}
+	
+	public void requestNbPlayer() {
+		
+		waiting = true;
+		
+		screenElements.add(new Backgroung("img/background/back1.png"));
+		
+		screenElements.add(new LabelWidget(350, 850, "Combien de joueurs ?"));
+		
+		clicks.add(new ClickableWidget(350, 700, 116, 759, "img/layout/2p.png") {
+			@Override
+			public void onClick(int x, int y) {
+				if(contains(x, y)) {
+					//System.err.println("dec Volume");
+					audioMaster.playSound("click");
+					nbPlayer = 2;
+					waiting = false;
+					}
+				}
+			});
+		
+		clicks.add(new ClickableWidget(350, 575, 116, 759, "img/layout/3p.png") {
+			@Override
+			public void onClick(int x, int y) {
+				if(contains(x, y)) {
+					//System.err.println("dec Volume");
+					audioMaster.playSound("click");
+					nbPlayer = 3;
+					waiting = false;
+					}
+				}
+			});
+		
+		clicks.add(new ClickableWidget(350, 450, 116, 759, "img/layout/4p.png") {
+			@Override
+			public void onClick(int x, int y) {
+				if(contains(x, y)) {
+					//System.err.println("dec Volume");
+					audioMaster.playSound("click");
+					nbPlayer = 4;
+					waiting = false;
+					}
+				}
+			});
+		
+		while(waiting);
 	}
 	
 	/**

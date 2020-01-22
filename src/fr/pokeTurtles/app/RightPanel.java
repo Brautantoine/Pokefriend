@@ -50,7 +50,8 @@ public class RightPanel {
 			public void onClick(int x, int y) {
 				
 				if(contains(x, y)) {	
-					gt.highlightCell();
+					playerChoice = PlayerChoice.EXEC;
+					waiting = false;
 				}	
 			}
 		});
@@ -140,7 +141,7 @@ public class RightPanel {
 			selected[i]=10;
 	}
 	
-	public PlayerChoice getPlayerChoice (ArrayList<Card> playerHand,Player player) {
+	public PlayerChoice getPlayerChoice (ArrayList<Card> playerHand,Player player, int currentPlayer) {
 		
 		for(int i = 3; i<5 ; i++)
 			clicks.get(i).move(2000, 2000);
@@ -160,7 +161,7 @@ public class RightPanel {
 		int i = 0;
 		int k = 0;
 		
-		printPlayerInfo(player);
+		printPlayerInfo(player,currentPlayer);
 		
 		ArrayList<MoveableClickableWidget> card = new ArrayList<>();
 		
@@ -404,8 +405,8 @@ public class RightPanel {
 		
 	}
 	
-	public void printPlayerInfo(Player player) {
-		gameInfo.setText("Joueur : "+player.getPlayerName()+"\n\nNombre de blocs restants\n\nRocher : "+player.getRock()+"\nArbre : "+player.getTree()+"\nPioche : "+player.getDrawSize()+"\nExecution :"+player.getExecSize()+"\nDefausse : "+player.getDropStack());
+	public void printPlayerInfo(Player player, int currentPlayer) {
+		gameInfo.setText("Joueur : "+player.getPlayerName()+"\n\nNombre de blocs restants\n\nRocher : "+player.getRock()+"\nArbre : "+player.getTree()+"\nPioche : "+player.getDrawSize()+"\nExecution :"+player.getExecSize()+"\nDefausse : "+player.getDropStack()+"\nDirection :"+gt.getTurtlesDirection(currentPlayer));
 	}
 	
 	// Add list of selected index
